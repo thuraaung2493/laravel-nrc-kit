@@ -1,0 +1,8 @@
+{
+  "name": "nrc-kit/pint-tools",
+  "description": "Isolated PHP 8.3 development formatter for PHP 7.4 package sources",
+  "type": "project",
+  "license": "ISC",
+  "require-dev": { "laravel/pint": "^1.32.3" },
+  "config": { "sort-packages": true, "platform": { "php": "8.3.0" } }
+}

@@ -1,0 +1,25 @@
+{
+  "preset": "laravel",
+  "paths": [
+    "config",
+    "src",
+    "tests",
+    "scripts"
+  ],
+  "exclude": [
+    "vendor",
+    "tools"
+  ],
+  "rules": {
+    "php_unit_attributes": false,
+    "modernize_strpos": false,
+    "trailing_comma_in_multiline": {
+      "elements": [
+        "arrays"
+      ]
+    },
+    "concat_space": {
+      "spacing": "one"
+    }
+  }
+}

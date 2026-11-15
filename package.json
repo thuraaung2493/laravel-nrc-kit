@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "description": "Development-only browser tests; Composer consumers need no Node",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/selector.test.mjs",
+    "test:browser": "node scripts/browser.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "jsdom": "^26.1.0"
+  }
+}

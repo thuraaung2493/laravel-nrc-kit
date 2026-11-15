@@ -1,0 +1,97 @@
+name: PHP and Laravel compatibility
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    name: PHP 7.4 / Laravel 7 baseline
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          extensions: mbstring, dom, json, zip
+          tools: composer:v2
+          coverage: none
+      - run: composer validate --strict
+      - run: composer install --prefer-dist --no-interaction
+      - run: composer install --working-dir=tools/analysis --prefer-dist --no-interaction
+      - run: composer typecheck
+      - run: find config src tests scripts -name '*.php' -print0 | xargs -0 -n 1 php -l
+      - run: composer test
+      - run: php scripts/consumer.php
+        env:
+          LARAVEL_VERSION: "^7.30"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+  compatibility:
+    name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { php: "7.4", laravel: "7.0.0", testbench: "5.0.0", browser: true }
+          - { php: "7.4", laravel: "^8.0", testbench: "^6.0" }
+          - { php: "8.0", laravel: "^8.0", testbench: "^6.0" }
+          - { php: "8.0", laravel: "^9.0", testbench: "^7.0" }
+          - { php: "8.1", laravel: "^9.0", testbench: "^7.0" }
+          - { php: "8.1", laravel: "^10.0", testbench: "^8.0" }
+          - { php: "8.2", laravel: "^10.0", testbench: "^8.0" }
+          - { php: "8.2", laravel: "^11.0", testbench: "^9.0" }
+          - { php: "8.2", laravel: "^12.0", testbench: "^10.0" }
+          - { php: "8.3", laravel: "^11.0", testbench: "^9.0" }
+          - { php: "8.3", laravel: "^12.0", testbench: "^10.0" }
+          - { php: "8.3", laravel: "^13.0", testbench: "^11.0" }
+          - { php: "8.4", laravel: "^12.0", testbench: "^10.0" }
+          - { php: "8.4", laravel: "^13.0", testbench: "^11.0" }
+          - { php: "8.5", laravel: "^13.0", testbench: "^11.0", browser: true }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, dom, json, zip
+          tools: composer:v2
+          coverage: none
+      - run: composer require --dev 'laravel/framework:${{ matrix.laravel }}' 'orchestra/testbench:${{ matrix.testbench }}' --no-update --no-interaction
+      - run: composer update --prefer-dist --no-interaction
+      - run: composer validate --strict
+      - run: composer test
+      - run: php scripts/consumer.php
+        env:
+          LARAVEL_VERSION: ${{ matrix.laravel }}
+      - uses: actions/setup-node@v4
+        if: matrix.browser
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+        if: matrix.browser
+      - run: npm test
+        if: matrix.browser
+      - run: npx playwright install --with-deps chromium
+        if: matrix.browser
+      - run: npm run test:browser
+        if: matrix.browser
+  format:
+    name: Intelephense-aligned Pint (PHP 8.3 tool)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, json, tokenizer, xml
+          tools: composer:v2
+          coverage: none
+      - run: composer validate --strict --working-dir=tools/pint
+      - run: composer install --working-dir=tools/pint --prefer-dist --no-interaction
+      - run: composer format:check

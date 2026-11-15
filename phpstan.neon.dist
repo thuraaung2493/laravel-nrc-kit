@@ -1,0 +1,13 @@
+includes:
+    - tools/analysis/vendor/nunomaduro/larastan/extension.neon
+    - tools/analysis/vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+    level: 8
+    phpVersion: 70400
+    paths:
+        - config
+        - src
+        - tests
+        - scripts
+    tmpDir: .phpstan-cache

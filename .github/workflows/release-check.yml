@@ -1,0 +1,27 @@
+name: Release readiness (no publication)
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.4"
+          tools: composer:v2
+          extensions: mbstring, dom, json, zip
+          coverage: none
+      - run: composer install --prefer-dist --no-interaction
+      - run: composer install --working-dir=tools/analysis --prefer-dist --no-interaction
+      - run: composer typecheck
+      - run: composer test
+      - run: php scripts/consumer.php
+        env:
+          LARAVEL_VERSION: "^7.30"
+      - run: composer archive --format=zip --dir=/tmp --file=laravel-nrc-kit
+      - uses: actions/upload-artifact@v4
+        with:
+          name: composer-review-artifact
+          path: /tmp/laravel-nrc-kit.zip

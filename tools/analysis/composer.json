@@ -1,0 +1,20 @@
+{
+  "name": "nrc-kit/analysis-tools",
+  "description": "Isolated Laravel 7 / PHP 7.4 baseline analyzer",
+  "type": "project",
+  "license": "ISC",
+  "require-dev": {
+    "laravel/framework": "^7.30",
+    "nunomaduro/larastan": "^0.7.15",
+    "phpstan/phpstan-phpunit": "^0.12"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "7.4.33"
+    },
+    "audit": {
+      "block-insecure": false
+    }
+  }
+}

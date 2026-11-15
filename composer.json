@@ -1,0 +1,69 @@
+{
+  "name": "thuraaung2493/laravel-nrc-kit",
+  "description": "Offline Myanmar NRC validation, conversion and native Blade selector",
+  "type": "library",
+  "license": "ISC",
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "illuminate/container": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+    "illuminate/contracts": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+    "illuminate/support": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+    "illuminate/view": "^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+    "phpunit/phpunit": "^9.6 || ^10.5 || ^11.5 || ^12.5 || ^13.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Thuraaung\\NrcKit\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Thuraaung\\NrcKit\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Thuraaung\\NrcKit\\NrcServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "test": "@php vendor/bin/phpunit",
+    "test:core": "@php vendor/bin/phpunit --filter CoreTest",
+    "typecheck": "@php tools/analysis/vendor/bin/phpstan analyse --configuration=phpstan.neon.dist --autoload-file=vendor/autoload.php --memory-limit=512M",
+    "format": "@php scripts/pint.php",
+    "format:check": "@php scripts/pint.php --test",
+    "check": [
+      "@format:check",
+      "@typecheck",
+      "@test"
+    ]
+  },
+  "config": {
+    "sort-packages": true,
+    "audit": {
+      "block-insecure": false
+    }
+  },
+  "archive": {
+    "exclude": [
+      "/tests",
+      "/scripts",
+      "/.github",
+      "/node_modules",
+      "/package*.json",
+      "/composer.lock",
+      "/tools",
+      "/pint.json",
+      "/phpstan.neon.dist",
+      "/.phpstan-cache",
+      "/.vscode"
+    ]
+  }
+}
