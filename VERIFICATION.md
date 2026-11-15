@@ -233,3 +233,23 @@ malformed metadata, duplicate types, unsafe numeric state IDs and cached config.
 Remote CI and the additional unavailable PHP runtime jobs remain unrun as noted
 above. No dependency constraints, package versions, publications, pushes, tags
 or releases changed in this API update.
+
+## GitHub source and branding — 2026-11-15
+
+The initial implementation was committed as `9a69457` and pushed to the private
+[GitHub repository](https://github.com/thuraaung2493/laravel-nrc-kit).
+[The initial CI run passed](https://github.com/thuraaung2493/laravel-nrc-kit/actions/runs/43709712274).
+
+All 17 CI jobs passed: the PHP 7.4/Laravel 7 baseline, 15 compatibility combinations through PHP 8.5/Laravel 13, and Pint. Local Composer checks also passed (29 tests, 12,442 assertions and Larastan).
+
+Created a shared transparent Blackmonster logo and matching package banner with
+the built-in image-generation tool. The README displays the banner and links to
+the author profile. npm/Composer archive checks confirm the image files are
+included with the README. Laravel's shipped selector JavaScript is tracked;
+its ignore rule now applies only to the root build directory.
+
+GitHub does not offer a first social-preview upload for a new private repository,
+so the banner is used in the README. The repositories remain private.
+Generation prompts are recorded in `assets/branding/README.md`.
+
+No registry packages, version tags or GitHub releases were published.
