@@ -2,6 +2,14 @@
 
 These instructions are for developing the package, not using it in an app.
 
+## Documentation
+
+The README and `docs/` are the source for both GitHub and the portfolio
+viewer. Update `docs/navigation.json` when pages change, and use relative links.
+Keep the `installation-command` comments around the command in `README.md`;
+the portfolio uses that block for its package card. Preserve README section
+anchors when moving existing content.
+
 ## Compatibility
 
 Package sources and test helpers keep PHP 7.4-compatible syntax. The package
